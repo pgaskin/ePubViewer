@@ -394,7 +394,10 @@ doUpdateProgressIndicators = function() {
     document.getElementById("bookcurrentcfi").innerText = "Current cfi: " + Book.getCurrentLocationCfi();
     try {
         document.getElementById("currentchapter").innerText = "Chapter: " + BookToc[Book.currentChapter.spinePos].label;
-    } catch (e) {}
+    } catch (e) {
+        document.getElementById("currentchapter").innerText = "";
+        
+    }
 }
 document.getElementById("book").innerHTML = "<div class=\"message info\">Please click the middle button on the toolbar below or <a href=\"javascript:void(0);\" onclick=\"document.getElementById('bookChooser').click()\">click here</a> to open a book.</div>";
 if (checkCompatibility()) {
