@@ -3,6 +3,8 @@
   "version": "2.0.1",
   "main": "index.html",
   "window": {
-    "icon": "icon.png"
+    "icon": "icon.png",
+    "height": 400,
+    "width": 400
   }
 }

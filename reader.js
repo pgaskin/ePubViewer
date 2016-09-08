@@ -396,7 +396,7 @@ doUpdateProgressIndicators = function() {
         document.getElementById("currentchapter").innerText = "Chapter: " + BookToc[Book.currentChapter.spinePos].label;
     } catch (e) {
         document.getElementById("currentchapter").innerText = "";
-        
+
     }
 }
 document.getElementById("book").innerHTML = "<div class=\"message info\">Please click the middle button on the toolbar below or <a href=\"javascript:void(0);\" onclick=\"document.getElementById('bookChooser').click()\">click here</a> to open a book.</div>";
@@ -415,7 +415,7 @@ doSidebar();
 
 
 (function nwjsfunctions() {
-    if (nw) {
+    if (typeof nw != "undefined") {
         var gui = require('nw.gui');
         var fs = require('fs');
         var uto = gui.App.argv[0];
