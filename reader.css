@@ -1,6 +1,6 @@
 @import url(normalize.css);
 @import url(material-icons/material-icons.css);
-@import 'https://fonts.googleapis.com/css?family=Roboto';
+@import url(roboto/roboto.css);
 
 main, section, header, nav, footer, aside {
     display: block;
