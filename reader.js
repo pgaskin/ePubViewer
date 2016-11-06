@@ -132,6 +132,7 @@ doBook = function(url) {
     Book.open(url);
 
     Book.getMetadata().then(function(meta) {
+        Book.nextPage(); /* Fix first page not showing issue */
         document.title = meta.bookTitle + " – " + meta.creator;
         document.getElementById("booktitle").innerHTML = meta.bookTitle;
         document.getElementById("bookauthor").innerHTML = meta.creator;
