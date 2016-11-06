@@ -1,11 +1,11 @@
-EPUBJS.Hooks.register("beforeChapterDisplay").wgxpath = function(callback, renderer) {
+EPUBJS.Hooks.register("beforeChapterDisplay").wgxpath = function (callback, renderer) {
 
     wgxpath.install(renderer.render.window);
 
     if (callback) callback();
 };
 
-EPUBJS.Hooks.register('beforeChapterDisplay').swipeDetection = function(callback, renderer) {
+EPUBJS.Hooks.register('beforeChapterDisplay').swipeDetection = function (callback, renderer) {
     function detectSwipe() {
         var script = renderer.doc.createElement('script');
         script.text = "\
@@ -26,17 +26,17 @@ EPUBJS.Hooks.register('beforeChapterDisplay').swipeDetection = function(callback
 
 wgxpath.install(window);
 
-EPUBJS.Hooks.register("beforeChapterDisplay").pageTurns = function(callback, renderer) {
+EPUBJS.Hooks.register("beforeChapterDisplay").pageTurns = function (callback, renderer) {
 
     var lock = false;
-    var arrowKeys = function(e) {
+    var arrowKeys = function (e) {
         e.preventDefault();
         if (lock) return;
 
         if (e.keyCode == 37) {
             Book.prevPage();
             lock = true;
-            setTimeout(function() {
+            setTimeout(function () {
                 lock = false;
             }, 100);
             return false;
@@ -45,7 +45,7 @@ EPUBJS.Hooks.register("beforeChapterDisplay").pageTurns = function(callback, ren
         if (e.keyCode == 39) {
             Book.nextPage();
             lock = true;
-            setTimeout(function() {
+            setTimeout(function () {
                 lock = false;
             }, 100);
             return false;
@@ -63,7 +63,7 @@ appid = "ePubViewer"
 initSettingsDone = false;
 
 /* Toggles a sidebar and hides the others. Pass no argument to hide all sidebars */
-doSidebar = function(sidebarName) {
+doSidebar = function (sidebarName) {
     if (sidebarName != null) {
         var isHidden = document.getElementById("sidebar-" + sidebarName).classList.contains("hidden");
     }
@@ -82,30 +82,30 @@ doSidebar = function(sidebarName) {
     }
 }
 
-doPrev = function() {
+doPrev = function () {
     Book.prevPage();
 }
 
-doNext = function() {
+doNext = function () {
     Book.nextPage();
 }
 
-doCfi = function(cfi) {
+doCfi = function (cfi) {
     Book.gotoCfi(cfi);
 }
 
-doChapter = function(chaptercfi) {
+doChapter = function (chaptercfi) {
     Book.displayChapter(chaptercfi);
 }
-getCoverAsDataURL = function(book, callback) {
-    book.coverUrl().then(function(blobUrl) {
+getCoverAsDataURL = function (book, callback) {
+    book.coverUrl().then(function (blobUrl) {
         console.log(blobUrl);
         var xhr = new XMLHttpRequest;
         xhr.responseType = 'blob';
-        xhr.onload = function() {
+        xhr.onload = function () {
             var recoveredBlob = xhr.response;
             var reader = new FileReader;
-            reader.onload = function() {
+            reader.onload = function () {
                 callback(reader.result);
             };
             reader.readAsDataURL(recoveredBlob);
@@ -116,7 +116,7 @@ getCoverAsDataURL = function(book, callback) {
 }
 
 
-doBook = function(url) {
+doBook = function (url) {
     var bookel = document.getElementById("book");
     bookel.innerHTML = '<div class="sk-fading-circle"> <div class="sk-circle1 sk-circle"></div><div class="sk-circle2 sk-circle"></div><div class="sk-circle3 sk-circle"></div><div class="sk-circle4 sk-circle"></div><div class="sk-circle5 sk-circle"></div><div class="sk-circle6 sk-circle"></div><div class="sk-circle7 sk-circle"></div><div class="sk-circle8 sk-circle"></div><div class="sk-circle9 sk-circle"></div><div class="sk-circle10 sk-circle"></div><div class="sk-circle11 sk-circle"></div><div class="sk-circle12 sk-circle"></div></div>';
     document.getElementById("curpercent").innerText = "";
@@ -125,19 +125,21 @@ doBook = function(url) {
         storage: false
     });
 
-    Book.on('book:loadFailed', function() {
+    Book.on('book:loadFailed', function () {
         bookel.innerHTML = "<div class=\"message error\">Error loading book</div>";
     });
 
     Book.open(url);
 
-    Book.getMetadata().then(function(meta) {
-        Book.nextPage(); /* Fix first page not showing issue */
+    Book.getMetadata().then(function (meta) {
+        try {
+            Book.nextPage(); /* Fix first page not showing issue */
+        } catch (e) {}
         document.title = meta.bookTitle + " – " + meta.creator;
         document.getElementById("booktitle").innerHTML = meta.bookTitle;
         document.getElementById("bookauthor").innerHTML = meta.creator;
         try {
-            getCoverAsDataURL(Book, function(u) {
+            getCoverAsDataURL(Book, function (u) {
                 document.getElementById("bookcover").src = u;
             })
         } catch (e) {}
@@ -147,18 +149,18 @@ doBook = function(url) {
             Book.goto(curpostmp)
         }
 
-        Book.on('renderer:locationChanged', function(locationCfi) {
+        Book.on('renderer:locationChanged', function (locationCfi) {
             localStorage.setItem(appid + "|" + BookID + "|curPosCfi", Book.getCurrentLocationCfi())
         });
 
-        Book.locations.generate().then(function() {
+        Book.locations.generate().then(function () {
             doUpdateProgressIndicators();
-            Book.on('renderer:locationChanged', function(locationCfi) {
+            Book.on('renderer:locationChanged', function (locationCfi) {
                 doUpdateProgressIndicators();
             });
         });
 
-        Book.on('renderer:locationChanged', function(locationCfi) {
+        Book.on('renderer:locationChanged', function (locationCfi) {
             try {
                 var toclist = document.getElementById("toc-container").getElementsByClassName("toc-entry");
                 for (var e = 0; e < toclist.length; e++) {
@@ -177,7 +179,7 @@ doBook = function(url) {
         document.body.classList.remove("not-loaded")
     });
 
-    Book.getToc().then(function(toc) {
+    Book.getToc().then(function (toc) {
         BookToc = toc;
         var containerel = document.getElementById("toc-container");
         for (var i = 0; i < toc.length; i++) {
@@ -186,7 +188,7 @@ doBook = function(url) {
             entryel.innerText = toc[i].label;
             entryel.setAttribute("data-cfi", toc[i].cfi);
             entryel.href = "javascript:void(0);";
-            entryel.onclick = function(e) {
+            entryel.onclick = function (e) {
                 doChapter(e.target.getAttribute("data-cfi"));
             };
             containerel.appendChild(entryel);
@@ -194,9 +196,9 @@ doBook = function(url) {
     });
 }
 
-doFileFromFileObject = function(fileObj) {
+doFileFromFileObject = function (fileObj) {
     var reader = new FileReader();
-    reader.addEventListener("load", function() {
+    reader.addEventListener("load", function () {
         var arr = (new Uint8Array(reader.result)).subarray(0, 2);
         var header = "";
         for (var i = 0; i < arr.length; i++) {
@@ -214,7 +216,7 @@ doFileFromFileObject = function(fileObj) {
     }
 }
 
-doHandleFileInput = function(el) {
+doHandleFileInput = function (el) {
     var el = el || document.getElementById("bookChooser");
     doFileFromFileObject(el.files[0]);
 }
@@ -263,7 +265,7 @@ function detectIE() {
     return false;
 }
 
-checkCompatibility = function() {
+checkCompatibility = function () {
     if (detectIE() === false) {} else {
         return false;
     }
@@ -303,23 +305,48 @@ checkCompatibility = function() {
     return true;
 }
 
-elID = function(i) {
+elID = function (i) {
     return document.getElementById(i);
 }
 
 mappingsValueCSS = {
     'font-family': elID("family"),
     'font-size': elID("size"),
-    'color': elID("color"),
-    'background-color': elID("background"),
     'line-height': elID("lineheight"),
     'margin': elID("margin")
 }
 mappingCheckedInit = {
     'spreads': elID("spreads")
 }
+themeselect = elID("theme");
+themes = {
+    "white": {
+        "bg": "white",
+        "fg": "black"
+    },
+    "black": {
+        "bg": "black",
+        "fg": "white"
+    },
+    "darkgray": {
+        "bg": "rgb(64,64,64)",
+        "fg": "rgb(220,220,220)"
+    },
+    "sepia": {
+        "bg": "wheat",
+        "fg": "black"
+    },
+    "solarizedDark": {
+        "bg": "#002b36",
+        "fg": "#839496"
+    },
+    "solarizedLight": {
+        "bg": "#fdf6e3",
+        "fg": "#657b83"
+    }
+}
 
-initSettings = function() {
+initSettings = function () {
     for (var i in mappingsValueCSS) {
         if (mappingsValueCSS.hasOwnProperty(i)) {
             if (localStorage[appid + "|" + i]) {
@@ -334,10 +361,16 @@ initSettings = function() {
     } else {
         localStorage[appid + "|" + "spreads"] = mappingCheckedInit["spreads"].checked;
     }
+
+    if (localStorage[appid + "|" + "theme"]) {
+        themeselect.value = localStorage[appid + "|" + "theme"];
+    } else {
+        localStorage[appid + "|" + "theme"] = themeselect.value;
+    }
     initSettingsDone = true;
 }
 
-updateSettings = function() {
+updateSettings = function () {
     for (var i in mappingsValueCSS) {
         if (mappingsValueCSS.hasOwnProperty(i)) {
             localStorage[appid + "|" + i] = mappingsValueCSS[i].value;
@@ -346,9 +379,16 @@ updateSettings = function() {
         }
     }
     localStorage[appid + "|" + "spreads"] = mappingCheckedInit["spreads"].checked;
+    try {
+        Book.setStyle("background-color", themes[themeselect.value].bg);
+        Book.setStyle("color", themes[themeselect.value].fg);
+    } catch (e) {
+        console.error("Error applying theme", e)
+    }
+    localStorage[appid + "|" + "theme"] = themeselect.value;
 }
 
-doBookReset = function() {
+doBookReset = function () {
     if (confirm("Do you want to reset the book position?")) {
         if (confirm("Are you sure?")) {
             delete localStorage[appid + "|" + BookID + "|curPosCfi"];
@@ -357,7 +397,7 @@ doBookReset = function() {
     }
 }
 
-doSettingsReset = function() {
+doSettingsReset = function () {
     if (confirm("Do you want to reset the settings (this will not erase your book progress)?")) {
         if (confirm("Are you sure?")) {
             delete localStorage[appid + "|" + "spreads"];
@@ -373,7 +413,7 @@ doSettingsReset = function() {
     }
 }
 
-doAllReset = function() {
+doAllReset = function () {
     if (confirm("Do you want to reset all your book progress and all settings?")) {
         if (confirm("Are you sure?")) {
             localStorage.clear();
@@ -387,7 +427,7 @@ doAllReset = function() {
     }
 }
 
-doUpdateProgressIndicators = function() {
+doUpdateProgressIndicators = function () {
     var progressint = Math.round(Book.locations.percentageFromCfi(Book.getCurrentLocationCfi()).toFixed(2) * 100);
     document.getElementById("curpercent").innerText = String(progressint) + "%";
     document.getElementById("bookprogresstext").innerText = String(progressint) + "% read";
@@ -426,7 +466,7 @@ doSidebar();
         var gui = require('nw.gui');
         var fs = require('fs');
         var uto = gui.App.argv[0];
-        fs.stat(uto, function(err, stat) {
+        fs.stat(uto, function (err, stat) {
             if (err == null) {
                 doBook("file://" + uto);
             } else if (err.code == 'ENOENT') {} else {}

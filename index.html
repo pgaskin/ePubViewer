@@ -63,12 +63,15 @@
 
 
                         <div>
-                            <label for="color">Color: </label>
-                            <input autocomplete="off" type="color" name="color" id="color" onchange="updateSettings()" value="#000000">
-                        </div>
-                        <div>
-                            <label for="background">Background Color: </label>
-                            <input autocomplete="off" type="color" name="background" id="background" onchange="updateSettings()" value="#ffffff">
+                            <label for="theme">Theme: </label>
+                            <select name="theme" id="theme" onchange="updateSettings()">
+                                                <option value="white">White</option>
+                                                <option value="black">Black</option>
+                                                <option value="darkgray">Dark Gray</option>
+                                                <option value="sepia" >Sepia</option>
+                                                <option value="solarizedLight" selected>Solarized Light</option>
+                                                <option value="solarizedDark">Solarized Dark</option>
+                            </select>
                         </div>
 
                         <div>
