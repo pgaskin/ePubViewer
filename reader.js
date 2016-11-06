@@ -410,9 +410,15 @@ if (checkCompatibility()) {
 document.body.classList.add("not-loaded")
 
 initSettings();
-doHandleFileInput();
-doSidebar();
 
+var ufn = location.search.replace("?", "");
+if (ufn) {
+    doBook(ufn);
+} else {
+    doHandleFileInput();
+}
+
+doSidebar();
 
 (function nwjsfunctions() {
     if (typeof nw != "undefined") {
