@@ -1,9 +1,3 @@
-EPUBJS.Hooks.register("beforeChapterDisplay").wgxpath = function (callback, renderer) {
-
-    wgxpath.install(renderer.render.window);
-
-    if (callback) callback();
-};
 
 EPUBJS.Hooks.register('beforeChapterDisplay').swipeDetection = function (callback, renderer) {
     function detectSwipe() {
@@ -36,7 +30,6 @@ EPUBJS.Hooks.register('beforeChapterDisplay').pageAnimation = function (callback
     }
 };
 
-wgxpath.install(window);
 
 EPUBJS.Hooks.register("beforeChapterDisplay").pageTurns = function (callback, renderer) {
 
