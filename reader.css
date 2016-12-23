@@ -145,6 +145,9 @@ body {
     flex: 1;
     position: relative;
 }
+.reader> main> #bookwrap .book {
+    height: 100%;	
+}
 .reader> main> #bookwrap> #book> .message {
     text-align: center;
     padding: 10px;
