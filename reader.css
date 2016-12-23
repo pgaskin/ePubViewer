@@ -145,7 +145,7 @@ body {
     flex: 1;
     position: relative;
 }
-.reader> main> #bookwrap .book {
+.reader> main> #bookwrap #book {
     height: 100%;	
 }
 .reader> main> #bookwrap> #book> .message {
