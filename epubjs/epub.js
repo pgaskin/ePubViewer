@@ -6685,6 +6685,7 @@ EPUBJS.Render.Iframe.prototype.create = function(){
 	this.element.id = "epubjs-view:" + this.id
 
 	this.isMobile = navigator.userAgent.match(/(iPad|iPhone|iPod|Mobile|Android)/g);
+	this.isMobile = true; /* Patch epubjs so animations work on desktop too */
 	this.transform = EPUBJS.core.prefixed('transform');
 
 	return this.element;
