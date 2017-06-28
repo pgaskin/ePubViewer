@@ -1,9 +1,7 @@
 # ePubViewer
 
 ## About
-A web-based ebook viewer. A desktop version is out now.
-
-<a href="http://github.com/geek1011/ePubViewer/releases">Download the Windows and Linux executables</a>
+A web-based ebook viewer.
 
 <a href="http://geek1011.github.io/ePubViewer">Try out the web-app now</a>
 
