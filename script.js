@@ -435,6 +435,7 @@ ePubViewer.actions.doSearch = function(q) {
                 console.log(mergedResults);
                 var max = mergedResults.length;
                 max = max > 100 ? 100 : max;
+                var fragment = document.createDocumentFragment()
                 for (var i = 0; i < max; i++) {
                     try {
                         var er = document.createElement("a");
@@ -446,11 +447,12 @@ ePubViewer.actions.doSearch = function(q) {
                         });
                         er.setAttribute("data-location", mergedResults[i].cfi);
                         er.innerHTML = mergedResults[i].excerpt;
-                        r.appendChild(er);
+                        fragment.appendChild(er);
                     } catch (e) {
                         console.warn(e);
                     }
                 }
+                r.appendChild(fragment);
             });
         });
     });
