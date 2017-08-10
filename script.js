@@ -305,7 +305,7 @@ ePubViewer.functions.applySettings = function () {
         "background-color: " + theme["background-color"] + ";",
         "}",
         ".reader .main .content {",
-        "margin: 0 " + ePubViewer.settings.margin + ";",
+        "margin: 5px " + ePubViewer.settings.margin + ";",
         "}"
     ].join("\n");
     if (font.link) {
