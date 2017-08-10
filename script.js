@@ -451,7 +451,7 @@ ePubViewer.actions.doSearch = function(q) {
 };
 ePubViewer.actions.loadBook = function (urlOrArrayBuffer) {
     ePubViewer.actions.clearSearch();
-    document.querySelector(".reader .toc").innerHTML = "";
+    ePubViewer.elements.tocList.innerHTML = "";
 
     ePubViewer.elements.content.innerHTML = "";
     ePubViewer.state.book = ePub({
@@ -508,7 +508,7 @@ ePubViewer.actions.loadBook = function (urlOrArrayBuffer) {
 
         ePubViewer.state.book.getToc().then(function (toc) {
             ePubViewer.state.toc = toc;
-            var containerel = document.querySelector(".reader .toc");
+            var containerel = ePubViewer.elements.tocList;
             containerel.innerHTML = "";
             for (var i = 0; i < toc.length; i++) {
                 console.log(toc[i]);
@@ -573,7 +573,7 @@ ePubViewer.actions.loadBook = function (urlOrArrayBuffer) {
     ePubViewer.state.book.renderTo(ePubViewer.elements.content);
 };
 ePubViewer.actions.handleSearch = function() {
-    ePubViewer.actions.doSearch(document.querySelector('.reader .search-box').value);
+    ePubViewer.actions.doSearch(ePubViewer.elements.searchBox.value);
 };
 ePubViewer.actions.clearSearch = function() {
     ePubViewer.elements.searchResults.innerHTML = "";
@@ -626,6 +626,8 @@ ePubViewer.init = function () {
     ePubViewer.elements.content = document.querySelector(".reader .content");
     ePubViewer.elements.openButton = document.querySelector(".reader .header .open-button");
     ePubViewer.elements.searchResults = document.querySelector(".reader .search-results");
+    ePubViewer.elements.searchBox = document.querySelector('.reader .search-box');
+    ePubViewer.elements.tocList = document.querySelector(".reader .toc");
 
     EPUBJS.Hooks.register('beforeChapterDisplay').swipeDetection = function (callback, renderer) {
         function detectSwipe() {
