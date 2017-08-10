@@ -200,7 +200,8 @@
 
 .reader .main .sidebar .toc-sidebar,
 .reader .main .sidebar .info-sidebar,
-.reader .main .sidebar .settings-sidebar {
+.reader .main .sidebar .settings-sidebar,
+.reader .main .sidebar .search-sidebar {
     display: none;
     min-width: 200px;
 }
@@ -265,6 +266,62 @@
     margin: 3px auto;
 }
 
+.reader .main .sidebar .search-sidebar .search-bar {
+    display: flex;
+}
+
+.reader .main .sidebar .search-sidebar .search-bar .search-box,
+.reader .main .sidebar .search-sidebar .search-bar button {
+    border-radius: 0 !important;
+    padding: 3px !important;
+    border-color: rgba(0,0,0,0.3);
+    outline: 0;
+}
+
+.reader .main .sidebar .search-sidebar .search-bar .search-box {
+    flex: 1;
+}
+.reader .main .sidebar .search-sidebar .search-bar button {
+    flex: 0 0 30px;
+}
+
+.reader .main .sidebar .search-sidebar .search-results {
+    display: block;
+}
+
+.reader .main .sidebar .search-sidebar .search-results a.result,
+.reader .main .sidebar .search-sidebar .search-results a.result:link,
+.reader .main .sidebar .search-sidebar .search-results a.result:visited {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 14px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    font-size: 85%;
+}
+
+.reader .main .sidebar .search-sidebar .search-results a.result:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.reader .main .sidebar .search-sidebar .search-results a.result:active {
+    background: rgba(0,0,0,0.10);
+}
+
+body.dark .reader .main .sidebar .search-sidebar .search-results a.result,
+body.dark .reader .main .sidebar .search-sidebar .search-results a.result:link,
+body.dark .reader .main .sidebar .search-sidebar .search-results a.result:visited {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+body.dark .reader .main .sidebar .search-sidebar .search-results a.result:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+body.dark .reader .main .sidebar .search-sidebar .search-results a.result:active {
+    background: rgba(255,255,255,0.10);
+}
+
 .reader .main .sidebar .control {
     display: flex;
     margin: 5px 2px;
@@ -283,7 +340,8 @@
 }
 
 select,
-button {
+button,
+input[type="text"] {
     background: transparent;
     width: 130px;
     padding: 5px;
@@ -302,19 +360,22 @@ select {
 }
 
 select:hover,
-button:hover {
+button:hover,
+input[type="text"]:hover {
     background: rgba(0,0,0,0.45);
     cursor: pointer;
 }
 
 body.light select,
-body.light button {
+body.light button ,
+body.light input[type="text"]{
     background: rgba(255,255,255,0.3);
     color: rgba(0,0,0,0.8);
 }
 
 body.light select:hover,
-body.light button:hover {
+body.light button:hover,
+body.light input[type="text"]:hover {
     background: rgba(255,255,255,0.45);
 }
 
