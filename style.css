@@ -194,8 +194,9 @@
 .reader .main .sidebar .sidebar-header .x {
     display: block;
     float: right;
-    font-size: 130%;
+    font-size: 100%;
     background: rgba(0, 0, 0, 0.001);
+    color: inherit;
 }
 
 .reader .main .sidebar .toc-sidebar,
@@ -420,4 +421,25 @@ html.no-flex .error.banner.incompatible-browser {
 html.load-error .error.banner.load-error {
     display: block;
     z-index: 1000000004;
+}
+
+::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+    background-color: rgba(0,0,0,0.07);
+}
+
+::-webkit-scrollbar:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.3);
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background-color: rgba(0,0,0,0.4);
 }

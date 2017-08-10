@@ -389,65 +389,65 @@ ePubViewer.actions.gotoChapter = function (chapter) {
     }
 };
 ePubViewer.actions.doSearch = function(q) {
-  return new Promise(function(resolve, reject) {
-    var r = ePubViewer.elements.searchResults;
+    return new Promise(function(resolve, reject) {
+        var r = ePubViewer.elements.searchResults;
 
-    r.innerHTML = "";
+        r.innerHTML = "";
 
-    var resultPromises = [];
+        var resultPromises = [];
 
-    q = q.replace(/^\s+|\s+$/g,'');
+        q = q.replace(/^\s+|\s+$/g,'');
 
-    if (q.length < 3) {
-        r.innerHTML = '<a class="result">Please enter at least 3 characters</a>';
-        resolve([]);
-        return;
-    }
-
-    for (var i = 0; i < ePubViewer.state.book.spine.length; i++) {
-      var spineItem = ePubViewer.state.book.spine[i];
-      resultPromises.push(new Promise(function(resolve, reject) {
-        new Promise(function(resolve, reject) {
-          resolve(new EPUBJS.Chapter(spineItem, ePubViewer.state.book.store, ePubViewer.state.book.credentials));
-        }).then(function(chapter) {
-          return new Promise(function(resolve, reject) {
-            chapter.load().then(function() {
-              resolve(chapter);
-            }).catch(reject);
-          });
-        }).then(function(chapter) {
-          return Promise.resolve(chapter.find(q));
-        }).then(function(result) {
-          resolve(result);
-        });
-      }));
-    }
-    Promise.all(resultPromises).then(function(results) {
-      return new Promise(function(resolve, reject) {
-        resolve(results);
-        var mergedResults = [].concat.apply([], results);
-        console.log(mergedResults);
-        var max = mergedResults.length;
-        max = max > 100 ? 100 : max;
-        for (var i = 0; i < max; i++) {
-          try {
-            var er = document.createElement("a");
-            er.classList.add("result");
-            er.href = "javascript:void(0);";
-            er.addEventListener("click", function() {
-              console.log(this.getAttribute("data-location"));
-              ePubViewer.state.book.goto(this.getAttribute("data-location"));
-            });
-            er.setAttribute("data-location", mergedResults[i].cfi);
-            er.innerHTML = mergedResults[i].excerpt;
-            r.appendChild(er);
-          } catch (e) {
-            console.warn(e);
-          }
+        if (q.length < 3) {
+            r.innerHTML = '<a class="result">Please enter at least 3 characters</a>';
+            resolve([]);
+            return;
         }
-      });
+
+        for (var i = 0; i < ePubViewer.state.book.spine.length; i++) {
+            var spineItem = ePubViewer.state.book.spine[i];
+            resultPromises.push(new Promise(function(resolve, reject) {
+                new Promise(function(resolve, reject) {
+                    resolve(new EPUBJS.Chapter(spineItem, ePubViewer.state.book.store, ePubViewer.state.book.credentials));
+                }).then(function(chapter) {
+                    return new Promise(function(resolve, reject) {
+                        chapter.load().then(function() {
+                        resolve(chapter);
+                        }).catch(reject);
+                    });
+                }).then(function(chapter) {
+                    return Promise.resolve(chapter.find(q));
+                }).then(function(result) {
+                    resolve(result);
+                });
+            }));
+        }
+        Promise.all(resultPromises).then(function(results) {
+            return new Promise(function(resolve, reject) {
+                resolve(results);
+                var mergedResults = [].concat.apply([], results);
+                console.log(mergedResults);
+                var max = mergedResults.length;
+                max = max > 100 ? 100 : max;
+                for (var i = 0; i < max; i++) {
+                    try {
+                        var er = document.createElement("a");
+                        er.classList.add("result");
+                        er.href = "javascript:void(0);";
+                        er.addEventListener("click", function() {
+                        console.log(this.getAttribute("data-location"));
+                        ePubViewer.state.book.goto(this.getAttribute("data-location"));
+                        });
+                        er.setAttribute("data-location", mergedResults[i].cfi);
+                        er.innerHTML = mergedResults[i].excerpt;
+                        r.appendChild(er);
+                    } catch (e) {
+                        console.warn(e);
+                    }
+                }
+            });
+        });
     });
-  });
 };
 ePubViewer.actions.loadBook = function (urlOrArrayBuffer) {
     ePubViewer.actions.clearSearch();
