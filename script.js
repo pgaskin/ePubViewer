@@ -450,6 +450,9 @@ ePubViewer.actions.doSearch = function(q) {
   });
 };
 ePubViewer.actions.loadBook = function (urlOrArrayBuffer) {
+    ePubViewer.actions.clearSearch();
+    document.querySelector(".reader .toc").innerHTML = "";
+
     ePubViewer.elements.content.innerHTML = "";
     ePubViewer.state.book = ePub({
         "storage": false
@@ -506,6 +509,7 @@ ePubViewer.actions.loadBook = function (urlOrArrayBuffer) {
         ePubViewer.state.book.getToc().then(function (toc) {
             ePubViewer.state.toc = toc;
             var containerel = document.querySelector(".reader .toc");
+            containerel.innerHTML = "";
             for (var i = 0; i < toc.length; i++) {
                 console.log(toc[i]);
                 var entryel = document.createElement("a");
@@ -567,6 +571,12 @@ ePubViewer.actions.loadBook = function (urlOrArrayBuffer) {
     ePubViewer.state.loaded = true;
     ePubViewer.functions.updateIndicators();
     ePubViewer.state.book.renderTo(ePubViewer.elements.content);
+};
+ePubViewer.actions.handleSearch = function() {
+    ePubViewer.actions.doSearch(document.querySelector('.reader .search-box').value);
+};
+ePubViewer.actions.clearSearch = function() {
+    ePubViewer.elements.searchResults.innerHTML = "";
 };
 ePubViewer.actions.openBook = function () {
     var fi = document.createElement("input");

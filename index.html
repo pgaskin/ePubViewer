@@ -195,8 +195,8 @@
                         </a>
                     </div>
                     <div class="sidebar-contents">
-                        <form class="search-bar" onsubmit="ePubViewer.actions.doSearch(document.querySelector('.reader .search-box').value);return false;">
-                            <input type="text" class="search-box" placeholder="Search..." autocomplete="off" />
+                        <form class="search-bar" onsubmit="ePubViewer.actions.handleSearch();return false;">
+                            <input type="text" class="search-box" placeholder="Search..." autocomplete="off" onkeydown="ePubViewer.actions.clearSearch();" />
                             <button type="submit"><span class="material-icons">search</span></button>
                         </form>
                         <div class="search-results"></div>
