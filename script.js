@@ -288,7 +288,10 @@ ePubViewer.functions.applySettings = function () {
             "}"
         ].join("\n");
         if (font.link) {
-            var el = doc.body.appendChild(doc.createElement("link"));
+            if (doc.getElementById("ePubViewerFontLink") === null) {
+                doc.body.appendChild(doc.createElement("link")).id = "ePubViewerFontLink";
+            }
+            var el = document.getElementById("ePubViewerFontLink");
             el.setAttribute("rel", "stylesheet");
             el.setAttribute("href", font.link);
         }
@@ -309,7 +312,10 @@ ePubViewer.functions.applySettings = function () {
         "}"
     ].join("\n");
     if (font.link) {
-        var ela = document.body.appendChild(document.createElement("link"));
+        if (document.getElementById("ePubViewerAppFontLink") === null) {
+            document.body.appendChild(document.createElement("link")).id = "ePubViewerAppFontLink";
+        }
+        var ela = document.getElementById("ePubViewerAppFontLink");
         ela.setAttribute("rel", "stylesheet");
         ela.setAttribute("href", font.link);
     }
@@ -514,7 +520,7 @@ ePubViewer.actions.loadBook = function (urlOrArrayBuffer) {
                 console.log(toc[i]);
                 var entryel = document.createElement("a");
                 entryel.classList.add("toc-entry");
-                entryel.innerText = toc[i].label;
+                entryel.innerHTML = toc[i].label;
                 entryel.setAttribute("data-cfi", toc[i].href);
                 entryel.href = "javascript:void(0);";
                 entryel.onclick = function (e) {
@@ -526,7 +532,7 @@ ePubViewer.actions.loadBook = function (urlOrArrayBuffer) {
                         var entryela = document.createElement("a");
                         entryela.classList.add("toc-entry");
                         entryela.style.paddingLeft = "20px";
-                        entryela.innerText = toc[i].subitems[j].label;
+                        entryela.innerHTML = toc[i].subitems[j].label;
                         entryela.setAttribute("data-cfi", toc[i].subitems[j].href);
                         entryela.href = "javascript:void(0);";
                         entryela.onclick = function (e) {
@@ -538,7 +544,7 @@ ePubViewer.actions.loadBook = function (urlOrArrayBuffer) {
                                 var entryelb = document.createElement("a");
                                 entryelb.classList.add("toc-entry");
                                 entryelb.style.paddingLeft = "40px";
-                                entryelb.innerText = toc[i].subitems[j].subitems[k].label;
+                                entryelb.innerHTML = toc[i].subitems[j].subitems[k].label;
                                 entryelb.setAttribute("data-cfi", toc[i].subitems[j].subitems[k].href);
                                 entryelb.href = "javascript:void(0);";
                                 entryelb.onclick = function (e) {
