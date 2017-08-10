@@ -468,6 +468,20 @@ ePubViewer.actions.loadBook = function (urlOrArrayBuffer) {
                             ePubViewer.actions.gotoChapter(e.target.getAttribute("data-cfi"));
                         };
                         containerel.appendChild(entryela);
+                        if (toc[i].subitems[j].subitems) {
+                            for (var k = 0; k < toc[i].subitems[j].subitems.length; k++) {
+                                var entryelb = document.createElement("a");
+                                entryelb.classList.add("toc-entry");
+                                entryelb.style.paddingLeft = "40px";
+                                entryelb.innerText = toc[i].subitems[j].subitems[k].label;
+                                entryelb.setAttribute("data-cfi", toc[i].subitems[j].subitems[k].href);
+                                entryelb.href = "javascript:void(0);";
+                                entryelb.onclick = function (e) {
+                                    ePubViewer.actions.gotoChapter(e.target.getAttribute("data-cfi"));
+                                };
+                                containerel.appendChild(entryelb);
+                            }
+                        }
                     }
                 }
             }
