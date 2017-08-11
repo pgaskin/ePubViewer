@@ -170,6 +170,22 @@
     font-size: 14px;
 }
 
+.reader .main .sidebar.overlay {
+    position: fixed;
+    top: 30px;
+    left: 0;
+    bottom: 30px;
+    background: inherit;
+    z-index: 1000000;
+}
+
+@media only screen and (min-height: 500px) and (min-width: 500px) {
+    .reader .main .sidebar.overlay {
+        top: 50px;
+        bottom: 50px;
+    }
+}
+
 .reader .main .sidebar .sidebar-inner {
     display: block;
     display: flex;

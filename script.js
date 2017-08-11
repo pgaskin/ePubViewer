@@ -309,7 +309,11 @@ ePubViewer.functions.applySettings = function () {
         "}",
         ".reader .main .content {",
         "margin: 5px " + ePubViewer.settings.margin + ";",
-        "}"
+        "}",
+        ".reader .main .sidebar.overlay {",
+        "color: " + theme.color + ";",
+        "background: " + theme["background-color"] + " !important;",
+        "}",
     ].join("\n");
     if (font.link) {
         if (document.getElementById("ePubViewerAppFontLink") === null) {
