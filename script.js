@@ -643,7 +643,7 @@ ePubViewer.init = function () {
 
     EPUBJS.Hooks.register('beforeChapterDisplay').swipeDetection = function (callback, renderer) {
         var swiper = renderer.doc.createElement('script');
-        swiper.innerHTML = 'function Swiper(b,e,f,g,h){var c=null,d=null;b.addEventListener("touchstart",function(a){c=a.touches[0].clientX;d=a.touches[0].clientY},!1);b.addEventListener("touchmove",function(a){if(c&&d){var b=c-a.touches[0].clientX;a=d-a.touches[0].clientY;Math.abs(b)>Math.abs(a)?0<b?e():f():0<a?g():h();c=d=null}},!1)};Swiper(document,function(){parent.ePubViewer.actions.nextPage()},function(){parent.ePubViewer.actions.prevPage()},function(){},function(){});';
+        swiper.innerHTML = 'function Swiper(f,g,h,k,l){var b=null,c=null;f.addEventListener("touchstart",function(a){b=a.touches[0].clientX;c=a.touches[0].clientY},!1);f.addEventListener("touchmove",function(a){if(b&&c){var d=b-a.touches[0].clientX;a=c-a.touches[0].clientY;var e=Math.abs(d)>Math.abs(a);e&&30>Math.abs(d)||!e&&30>Math.abs(a)||(e?0<d?g():h():0<a?k():l(),b=c=null)}},!1)};Swiper(document,function(){parent.ePubViewer.actions.nextPage()},function(){parent.ePubViewer.actions.prevPage()},function(){},function(){});';
         renderer.doc.head.appendChild(swiper);
         if (callback) callback();
     };
@@ -676,6 +676,7 @@ ePubViewer.init = function () {
 
     EPUBJS.Hooks.register("beforeChapterDisplay").clickHalfPageTurn = function (callback, renderer) {
         renderer.doc.addEventListener('click', function (event) {
+            console.log(event)
             try {
                 if (event.target.tagName.toLowerCase() == "a") return;
                 if (event.target.parentNode.tagName.toLowerCase() == "a") return;
