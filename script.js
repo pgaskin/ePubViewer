@@ -368,7 +368,7 @@ ePubViewer.actions.allReset = function () {
     }
 };
 ePubViewer.actions.showSidebar = function (sbname) {
-    var sbels = document.querySelectorAll(".reader [data-sidebar]");
+    var sbels = document.querySelectorAll(".reader .sidebar [data-sidebar]");
     for (var i = 0; i < sbels.length; i++) {
         try {
             if (sbels[i].getAttribute("data-sidebar") == sbname) {
@@ -378,12 +378,18 @@ ePubViewer.actions.showSidebar = function (sbname) {
             }
         } catch (e) {}
     }
+    var sb = document.querySelector(".reader .sidebar");
+    sb.classList.add("visible");
+    sb.classList.remove("hidden");
 };
 ePubViewer.actions.closeSidebars = function () {
-    var sbels = document.querySelectorAll(".reader [data-sidebar]");
+    var sbels = document.querySelectorAll(".reader .sidebar [data-sidebar]");
     for (var i = 0; i < sbels.length; i++) {
         sbels[i].classList.remove("visible");
     }
+    var sb = document.querySelector(".reader .sidebar");
+    sb.classList.remove("visible");
+    sb.classList.add("hidden");
 };
 ePubViewer.actions.prevPage = function () {
     ePubViewer.state.book.prevPage();
@@ -678,7 +684,6 @@ ePubViewer.init = function () {
 
     EPUBJS.Hooks.register("beforeChapterDisplay").clickHalfPageTurn = function (callback, renderer) {
         renderer.doc.addEventListener('click', function (event) {
-            console.log(event)
             try {
                 if (event.target.tagName.toLowerCase() == "a") return;
                 if (event.target.parentNode.tagName.toLowerCase() == "a") return;

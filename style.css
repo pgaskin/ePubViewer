@@ -168,6 +168,23 @@
     overflow-y: auto;
     border-right: 1px solid rgba(0,0,0,0.1);
     font-size: 14px;
+    min-width: 200px;
+}
+
+.reader .main .sidebar.hidden {
+    display: none;
+}
+
+.reader .main .sidebar.visible {
+    display: block;
+}
+
+.reader .main .sidebar.hidden {
+    display: none;
+}
+
+.reader .main .sidebar.visible {
+    display: block;
 }
 
 .reader .main .sidebar.overlay {
@@ -177,6 +194,17 @@
     bottom: 30px;
     background: inherit;
     z-index: 1000000;
+    transition: transform 0.2s ease-in-out;
+}
+
+.reader .main .sidebar.overlay.hidden {
+    display: block !important;
+    transform: translateX(-100%);
+}
+
+.reader .main .sidebar.overlay.visible {
+    display: block !important;
+    transform: none;
 }
 
 @media only screen and (min-height: 500px) and (min-width: 500px) {
@@ -216,12 +244,8 @@
     color: inherit;
 }
 
-.reader .main .sidebar .toc-sidebar,
-.reader .main .sidebar .info-sidebar,
-.reader .main .sidebar .settings-sidebar,
-.reader .main .sidebar .search-sidebar {
+.reader .main .sidebar .sidebar-inner {
     display: none;
-    min-width: 200px;
 }
 
 .reader .main .sidebar .toc-sidebar .toc {
