@@ -297,7 +297,9 @@
 }
 
 .reader .main .sidebar .search-sidebar .search-bar .search-box {
+    width: auto;
     flex: 1;
+    cursor: text;
 }
 .reader .main .sidebar .search-sidebar .search-bar button {
     flex: 0 0 30px;
