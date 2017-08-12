@@ -645,37 +645,32 @@ ePubViewer.init = function () {
         var swiper = renderer.doc.createElement('script');
         swiper.innerHTML = 'function Swiper(b,e,f,g,h){var c=null,d=null;b.addEventListener("touchstart",function(a){c=a.touches[0].clientX;d=a.touches[0].clientY},!1);b.addEventListener("touchmove",function(a){if(c&&d){var b=c-a.touches[0].clientX;a=d-a.touches[0].clientY;Math.abs(b)>Math.abs(a)?0<b?e():f():0<a?g():h();c=d=null}},!1)};Swiper(document,function(){parent.ePubViewer.actions.nextPage()},function(){parent.ePubViewer.actions.nextPage()},function(){},function(){});';
         renderer.doc.head.appendChild(swiper);
-        if (callback) {
-            callback();
-        }
+        if (callback) callback();
     };
 
     EPUBJS.Hooks.register("beforeChapterDisplay").pageTurnKey = function (callback, renderer) {
         var lock = false;
-        var arrowKeys = function (e) {
+        renderer.doc.addEventListener('keydown', function (e) {
             e.preventDefault();
             if (lock) return;
-
-            if (e.keyCode == 37) {
-                ePubViewer.actions.prevPage();
-                lock = true;
+            var d = false;
+            switch (e.keyCode) {
+                case 37:
+                    d = true;
+                    ePubViewer.actions.prevPage();
+                    break;
+                case 39:
+                    d = true;
+                    ePubViewer.actions.nextPage();
+                    break;
+            }
+            if (d) {
                 setTimeout(function () {
                     lock = false;
                 }, 100);
                 return false;
             }
-
-            if (e.keyCode == 39) {
-                ePubViewer.actions.nextPage();
-                lock = true;
-                setTimeout(function () {
-                    lock = false;
-                }, 100);
-                return false;
-            }
-
-        };
-        renderer.doc.addEventListener('keydown', arrowKeys, false);
+        }, false);
         if (callback) callback();
     };
 
