@@ -507,11 +507,13 @@ ePubViewer.actions.loadBook = function (urlOrArrayBuffer) {
 
         var ismobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
         if (!ismobile) {
-            var w = 600;
-            var h = 800;
-            ePubViewer.state.book.generatePagination(w, h).then(function () {
-                ePubViewer.functions.updateIndicators();
-            });
+            window.setTimeout(function () {
+                var w = 600;
+                var h = 800;
+                ePubViewer.state.book.generatePagination(w, h).then(function () {
+                    ePubViewer.functions.updateIndicators();
+                });
+            }, 1000);
         }
 
         ePubViewer.state.book.on('renderer:locationChanged', function (locationCfi) {
