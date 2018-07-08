@@ -194,6 +194,9 @@ App.prototype.fatal = function (msg, err, usersFault) {
         error: err.toString(),
         stack: err.stack
     });
+    try {
+        if (!usersFault) Raven.captureException(err);
+    } catch (err) {}
 };
 
 App.prototype.doReset = function () {
