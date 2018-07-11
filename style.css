@@ -163,6 +163,94 @@
     margin: 0 auto;
 }
 
+.app .dictionary-wrapper {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: stretch;
+    align-items: stretch;
+    -webkit-justify-content: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    height: 200px;
+    max-height: 50%;
+    min-height: 150px;
+    z-index: 500;
+}
+
+.app .dictionary-wrapper .dictionary {
+    flex: 0 0 auto;
+}
+
+.app .dictionary {
+    background: #fff;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, .15);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 450px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.app .dictionary .definition {
+    display: block;
+    padding: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.app .dictionary .definition:last-child {
+    border-bottom: none;
+}
+
+.app .dictionary .definition .word {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.app .dictionary .definition .info {
+    display: block;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+
+.app .dictionary .definition .meanings {
+    display: block;
+}
+
+.app .dictionary .definition .meaning {
+    display: block;
+    margin-bottom: 8px;
+    text-indent: 10px;
+}
+
+.app .dictionary .definition .meaning:first-line {
+    margin-left: -10px;
+}
+
+.app .dictionary .definition .meaning .text {
+    display: block;
+    margin-bottom: 2px;
+}
+
+.app .dictionary .definition .meaning .example {
+    display: block;
+    font-style: italic;
+}
+
+.app .dictionary .definition .credit {
+    display: block;
+    margin-top: 4px;
+    font-style: italic;
+    font-size: 12px;
+}
+
 .app .sidebar {
     display: -webkit-flex;
     display: flex;

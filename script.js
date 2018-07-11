@@ -122,6 +122,10 @@ App.prototype.doBook = function (url, opts) {
     this.state.rendition.on("displayError", this.fatal.bind(this, "error rendering book"));
 
     this.state.rendition.display();
+
+    if (this.state.dictInterval) window.clearInterval(this.state.dictInterval);
+    this.state.dictInterval = window.setInterval(this.checkDictionary.bind(this), 50);
+    this.doDictionary(null);
 };
 
 App.prototype.loadSettingsFromStorage = function () {
@@ -200,6 +204,7 @@ App.prototype.fatal = function (msg, err, usersFault) {
 };
 
 App.prototype.doReset = function () {
+    if (this.state.dictInterval) window.clearInterval(this.state.dictInterval);
     if (this.state.rendition) this.state.rendition.destroy();
     if (this.state.book) this.state.book.destroy();
     this.state = {
@@ -224,6 +229,7 @@ App.prototype.doReset = function () {
     this.qs(".sidebar-button").classList.add("hidden");
     this.qs(".bar button.prev").classList.add("hidden");
     this.qs(".bar button.next").classList.add("hidden");
+    this.doDictionary(null);
 };
 
 App.prototype.qs = function (q) {
@@ -285,6 +291,7 @@ App.prototype.onNavigationLoaded = function (nav) {
 };
 
 App.prototype.onRenditionRelocated = function (event) {
+    try {this.doDictionary(null);} catch (err) {}
     try {
         let navItem = (function flatten(arr) {
             return [].concat(...arr.map(v => [v, ...flatten(v.subitems)]));
@@ -477,6 +484,100 @@ App.prototype.onRenditionStartedRestorePos = function (event) {
     } catch (err) {
         this.fatal("error restoring position", err);
     }
+};
+
+App.prototype.checkDictionary = function () {
+    try {
+        let selection = this.state.rendition.manager.getContents()[0].window.getSelection().toString().trim();
+        if (selection.length < 2 || selection.indexOf(" ") > -1) {
+            if (this.state.showDictTimeout) window.clearTimeout(this.state.showDictTimeout);
+            this.doDictionary(null);
+            return;
+        }
+        this.state.showDictTimeout = window.setTimeout(() => {
+            try {
+                let newSelection = this.state.rendition.manager.getContents()[0].window.getSelection().toString().trim();
+                if (newSelection == selection) this.doDictionary(newSelection);
+            } catch (err) {console.error(`showDictTimeout: ${err.toString()}`)}
+        }, 300);
+    } catch (err) {console.error(`checkDictionary: ${err.toString()}`)}
+};
+
+App.prototype.doDictionary = function (word) {
+    if (this.state.lastWord) if (this.state.lastWord == word) return;
+    this.state.lastWord = word;
+
+    console.log("hide dictionary");
+    this.qs(".dictionary-wrapper").classList.add("hidden");
+    this.qs(".dictionary").innerHTML = "";
+    if (!word) return;
+
+    console.log(`define ${word}`);
+    this.qs(".dictionary-wrapper").classList.remove("hidden");
+    this.qs(".dictionary").innerHTML = "";
+
+    let definitionEl = this.qs(".dictionary").appendChild(document.createElement("div"));
+    definitionEl.classList.add("definition");
+
+    let wordEl = definitionEl.appendChild(document.createElement("div"));
+    wordEl.classList.add("word");
+    wordEl.innerText = word;
+
+    let meaningsEl = definitionEl.appendChild(document.createElement("div"));
+    meaningsEl.classList.add("meanings");
+    meaningsEl.innerHTML = "Loading";
+
+    fetch(`https://dict.geek1011.net/word/${encodeURIComponent(word)}`).then(resp => {
+        if (resp.status >= 500) throw new Error(`Dictionary not available`);
+        return resp.json();
+    }).then(obj => {
+        if (obj.status == "error") throw new Error(`ApiError: ${obj.result}`);
+        return obj.result;
+    }).then(word => {
+        console.log("dictLookup", word);
+        meaningsEl.innerHTML = "";
+        wordEl.innerText = [word.word].concat(word.alternates || []).join(", ").toLowerCase();
+        
+        if (word.info && word.info.trim() != "") {
+            let infoEl = meaningsEl.appendChild(document.createElement("div"));
+            infoEl.classList.add("info");
+            infoEl.innerText = word.info;
+        }
+        
+        (word.meanings || []).map((meaning, i) => {
+            let meaningEl = meaningsEl.appendChild(document.createElement("div"));
+            meaningEl.classList.add("meaning");
+
+            let meaningTextEl = meaningEl.appendChild(document.createElement("div"));
+            meaningTextEl.classList.add("text");
+            meaningTextEl.innerText = `${i + 1}. ${meaning.text}`;
+
+            if (meaning.example && meaning.example.trim() != "") {
+                let meaningExampleEl = meaningEl.appendChild(document.createElement("div"));
+                meaningExampleEl.classList.add("example");
+                meaningExampleEl.innerText = meaning.example;
+            }
+        });
+        
+        if (word.credit && word.credit.trim() != "") {
+            let creditEl = meaningsEl.appendChild(document.createElement("div"));
+            creditEl.classList.add("credit");
+            creditEl.innerText = word.credit;
+        }
+    }).catch(err => {
+        try {
+            console.error("dictLookup", err);
+            if (err.toString().toLowerCase().indexOf("not in dictionary") > -1) {
+                meaningsEl.innerHTML = "Word not in dictionary.";
+                return;
+            }
+            if (err.toString().toLowerCase().indexOf("not available") > -1 || err.toString().indexOf("networkerror") > -1 || err.toString().indexOf("failed to fetch") > -1) {
+                meaningsEl.innerHTML = "Dictionary not available.";
+                return;
+            }
+            meaningsEl.innerHTML = `Dictionary not available: ${err.toString()}`;
+        } catch (err) {}
+    });
 };
 
 App.prototype.doFullscreen = () => {
