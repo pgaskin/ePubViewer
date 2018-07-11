@@ -342,6 +342,7 @@ App.prototype.onRenditionClick = function (event) {
         if (event.target.tagName.toLowerCase() == "a" && event.target.href) return;
         if (event.target.parentNode.tagName.toLowerCase() == "a" && event.target.parentNode.href) return;
         if (window.getSelection().toString().length !== 0) return;
+        if (this.state.rendition.manager.getContents()[0].window.getSelection().toString().length !== 0) return;
     } catch (err) {}
 
     let wrapper = this.state.rendition.manager.container;
