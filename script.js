@@ -1,4 +1,5 @@
 "use strict";
+console.log("asd dfg dfg gfh")
 
 window.onerror = function (msg, url, line, column, err) {
     if (msg.indexOf("Permission denied") > -1) return;
@@ -488,7 +489,7 @@ App.prototype.onRenditionStartedRestorePos = function (event) {
 
 App.prototype.checkDictionary = function () {
     try {
-        let selection = this.state.rendition.manager.getContents()[0].window.getSelection().toString().trim();
+        let selection = this.state.rendition.manager ? this.state.rendition.manager.getContents()[0].window.getSelection().toString().trim() : "";
         if (selection.length < 2 || selection.indexOf(" ") > -1) {
             if (this.state.showDictTimeout) window.clearTimeout(this.state.showDictTimeout);
             this.doDictionary(null);
@@ -507,7 +508,7 @@ App.prototype.doDictionary = function (word) {
     if (this.state.lastWord) if (this.state.lastWord == word) return;
     this.state.lastWord = word;
 
-    console.log("hide dictionary");
+    if (!this.qs(".dictionary-wrapper").classList.contains("hidden")) console.log("hide dictionary");
     this.qs(".dictionary-wrapper").classList.add("hidden");
     this.qs(".dictionary").innerHTML = "";
     if (!word) return;
