@@ -1,5 +1,4 @@
 "use strict";
-console.log("asd dfg dfg gfh")
 
 window.onerror = function (msg, url, line, column, err) {
     if (msg.indexOf("Permission denied") > -1) return;

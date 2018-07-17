@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="libs/normalize.min.css">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Arbutus+Slab" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="description" content="ePubViewer is an powerful, modern, and easy-to-use web app for reading ebooks.">
@@ -24,10 +24,18 @@
         <div class="sidebar-wrapper out">
             <div class="sidebar">
                 <div class="tab-list">
-                    <a data-tab="toc" class="item"><i class="icon material-icons">list</i></a>
-                    <a data-tab="search" class="item"><i class="icon material-icons">search</i></a>
-                    <a data-tab="info" class="item"><i class="icon material-icons">info</i></a>
-                    <a data-tab="settings" class="item"><i class="icon material-icons">settings</i></a>
+                    <a data-tab="toc" class="item">
+                        <i class="icon material-icons">list</i>
+                    </a>
+                    <a data-tab="search" class="item">
+                        <i class="icon material-icons">search</i>
+                    </a>
+                    <a data-tab="info" class="item">
+                        <i class="icon material-icons">info</i>
+                    </a>
+                    <a data-tab="settings" class="item">
+                        <i class="icon material-icons">settings</i>
+                    </a>
                 </div>
                 <div class="tab-container">
                     <div class="tab" data-tab="toc">
@@ -36,12 +44,16 @@
                     <div class="tab search" data-tab="search">
                         <div class="search-bar">
                             <input type="text" autocomplete="off" placeholder="Search book..." class="search-box">
-                            <button class="search-button"><i class="icon material-icons">search</i></button>
+                            <button class="search-button">
+                                <i class="icon material-icons">search</i>
+                            </button>
                         </div>
                         <div class="search-results"></div>
                     </div>
                     <div class="tab info" data-tab="info">
-                        <div class="cover-wrapper"><img src="" alt="" class="cover"></div>
+                        <div class="cover-wrapper">
+                            <img src="" alt="" class="cover">
+                        </div>
                         <div class="title"></div>
                         <div class="series-info">
                             <span class="series-name"></span>
@@ -69,7 +81,8 @@
                                 <div class="font chip" style="font-family: 'Arial', Arimo, Liberation Sans, sans-serif;" data-value="'Arial', Arimo, Liberation Sans, sans-serif">Arial</div>
                                 <div class="font chip" style="font-family: 'Lato', sans-serif;" data-value="'Lato', sans-serif">Lato</div>
                                 <div class="font chip" style="font-family: 'Georgia', Liberation Serif, serif;" data-value="'Georgia', Liberation Serif, serif">Georgia</div>
-                                <div class="font chip" style="font-family: 'Times New Roman', Tinos, Liberation Serif, Times, serif;" data-value="'Times New Roman', Tinos, Liberation Serif, Times, serif" data-default="true">Times New Roman</div>
+                                <div class="font chip" style="font-family: 'Times New Roman', Tinos, Liberation Serif, Times, serif;" data-value="'Times New Roman', Tinos, Liberation Serif, Times, serif"
+                                    data-default="true">Times New Roman</div>
                                 <div class="font chip" style="font-family: 'Arbutus Slab', serif;" data-value="'Arbutus Slab', serif">Arbutus Slab</div>
                             </div>
                         </div>
@@ -130,11 +143,14 @@
                         <div class="setting">
                             <div class="setting-label">About</div>
                             <div class="setting-content">
-                                ePubViewer v3.0.0<br />
-                                Copyright 2018 <a href="https://geek1011.github.io">Patrick Gaskin</a><br />
-                                <a href="https://github.com/geek1011/ePubViewer">Code</a> | 
-                                <a href="https://github.com/geek1011/ePubViewer/issues">Report an issue</a><br /><br />
-                                This app requires Microsoft Edge 15+, Mozilla Firefox 50+, Chrome 50+, or Safari 10+.
+                                ePubViewer v3.0.0
+                                <br /> Copyright 2018
+                                <a href="https://geek1011.github.io">Patrick Gaskin</a>
+                                <br />
+                                <a href="https://github.com/geek1011/ePubViewer">Code</a> |
+                                <a href="https://github.com/geek1011/ePubViewer/issues">Report an issue</a>
+                                <br />
+                                <br /> This app requires Microsoft Edge 15+, Mozilla Firefox 50+, Chrome 50+, or Safari 10+.
                             </div>
                         </div>
                     </div>
@@ -149,7 +165,9 @@
         </div>
         <div class="bar">
             <div class="left">
-                <button class="open"><i class="icon material-icons">file_upload</i></button>
+                <button class="open">
+                    <i class="icon material-icons">file_upload</i>
+                </button>
             </div>
             <div class="title">
                 <span class="book-title"></span>
@@ -157,7 +175,9 @@
                 <span class="book-author"></span>
             </div>
             <div class="right">
-                <button class="sidebar-button hidden" onclick="ePubViewer.doSidebar()"><i class="icon material-icons">menu</i></button>
+                <button class="sidebar-button hidden" onclick="ePubViewer.doSidebar()">
+                    <i class="icon material-icons">menu</i>
+                </button>
             </div>
         </div>
         <div class="book">
@@ -165,22 +185,28 @@
                 <div class="empty">
                     <div class="app-name">ePubViewer</div>
                     <div class="message">
-                        Unknown error. If this message does not disappear in a few seconds, try using a different browser (Chrome or Firefox), and if the issue still persists, <a href="https://github.com/geek1011/ePubViewer">report it here</a>.
+                        Unknown error. If this message does not disappear in a few seconds, try using a different browser (Chrome or Firefox), and
+                        if the issue still persists,
+                        <a href="https://github.com/geek1011/ePubViewer">report it here</a>.
                     </div>
                 </div>
             </div>
         </div>
         <div class="bar">
             <div class="left">
-                <button class="prev hidden"><i class="icon material-icons">chevron_left</i></button>
+                <button class="prev hidden">
+                    <i class="icon material-icons">chevron_left</i>
+                </button>
             </div>
             <div class="loc"></div>
             <div class="right">
-                <button class="next hidden"><i class="icon material-icons">chevron_right</i></button>
+                <button class="next hidden">
+                    <i class="icon material-icons">chevron_right</i>
+                </button>
             </div>
         </div>
     </div>
-    
+
     <script>
         function isIE(userAgent) {
             userAgent = userAgent || navigator.userAgent;
@@ -202,6 +228,9 @@
                 };
             })
         });
+        try {
+            window.caches.keys().then(keys => console.log("caches: " + keys.join(", "))).catch(err => console.log("error checking cache version"));
+        } catch (err) { }
     </script>
 
     <script src="polyfills/babel-polyfill.min.js"></script>
