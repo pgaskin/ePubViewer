@@ -3,7 +3,7 @@
 ## About
 A web-based ebook viewer.
 
-<a href="http://geek1011.github.io/ePubViewer">Try it out now.</a>
+<a href="https://pgaskin.net/ePubViewer">Try it out now.</a>
 
 ## Features
 - Modern, responsive UI
