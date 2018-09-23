@@ -1,5 +1,15 @@
 "use strict";
 
+function isRavenDisabled() {
+    try {
+        if (typeof disableRaven !== 'undefined' && disableRaven) return true;
+        if (typeof window.disableRaven !== 'undefined' && window.disableRaven) return true;
+        return false;
+    } catch (ex) {
+        return false;
+    }
+}
+
 window.onerror = function (msg, url, line, column, err) {
     if (msg.indexOf("Permission denied") > -1) return;
     if (msg.indexOf("Object expected") > -1 && url.indexOf("epub") > -1) return;
@@ -16,7 +26,7 @@ window.onerror = function (msg, url, line, column, err) {
         column: column,
     });
     try {
-        if (!disableRaven) Raven.captureException(err);
+        if (!isRavenDisabled()) Raven.captureException(err);
     } catch (err) {}
 };
 
@@ -199,7 +209,7 @@ App.prototype.fatal = function (msg, err, usersFault) {
         stack: err.stack
     });
     try {
-        if (!disableRaven) if (!usersFault) Raven.captureException(err);
+        if (!isRavenDisabled()) if (!usersFault) Raven.captureException(err);
     } catch (err) {}
 };
 
@@ -680,6 +690,6 @@ try {
         stack: err.stack
     });
     try {
-        if (!disableRaven) Raven.captureException(err);
+        if (!isRavenDisabled) Raven.captureException(err);
     } catch (err) {}
 }
