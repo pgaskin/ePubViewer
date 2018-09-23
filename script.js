@@ -16,7 +16,7 @@ window.onerror = function (msg, url, line, column, err) {
         column: column,
     });
     try {
-        Raven.captureException(err);
+        if (!disableRaven) Raven.captureException(err);
     } catch (err) {}
 };
 
@@ -199,7 +199,7 @@ App.prototype.fatal = function (msg, err, usersFault) {
         stack: err.stack
     });
     try {
-        if (!usersFault) Raven.captureException(err);
+        if (!disableRaven) if (!usersFault) Raven.captureException(err);
     } catch (err) {}
 };
 
@@ -680,6 +680,6 @@ try {
         stack: err.stack
     });
     try {
-        Raven.captureException(err);
+        if (!disableRaven) Raven.captureException(err);
     } catch (err) {}
 }
