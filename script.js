@@ -655,6 +655,8 @@ App.prototype.onSearchClick = function (event) {
 
             let textEl = resultEl.appendChild(this.el("div", "text"));
             textEl.innerText = result.excerpt.trim();
+
+            resultEl.appendChild(this.el("div", "pbar")).appendChild(this.el("div", "pbar-inner")).style.width = (this.state.book.locations.percentageFromCfi(result.cfi)*100).toFixed(3) + "%";
         });
         this.qs(".app .sidebar .search-results").appendChild(resultsEl);
     }).catch(err => this.fatal("error searching book", err));

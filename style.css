@@ -485,6 +485,16 @@
     padding: 4px;
 }
 
+.app .sidebar .search-results .item .pbar {
+    background: #ddd;
+}
+
+.app .sidebar .search-results .item .pbar .pbar-inner {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
 .app .sidebar .info {
     display: block;
 }
