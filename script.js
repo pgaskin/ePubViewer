@@ -139,7 +139,7 @@ App.prototype.doBook = function (url, opts) {
 };
 
 App.prototype.loadSettingsFromStorage = function () {
-    ["theme", "font", "font-size", "line-spacing", "margin"].forEach(container => this.restoreChipActive(container));
+    ["theme", "font", "font-size", "line-spacing", "margin", "progress"].forEach(container => this.restoreChipActive(container));
 };
 
 App.prototype.restoreChipActive = function (container) {
@@ -160,6 +160,7 @@ App.prototype.setChipActive = function (container, value) {
     });
     localStorage.setItem(`ePubViewer:${container}`, value);
     this.applyTheme();
+    if (this.state.rendition && this.state.rendition.location) this.onRenditionRelocatedUpdateIndicators(this.state.rendition.location);
     return value;
 };
 
@@ -283,6 +284,16 @@ App.prototype.onTocItemClick = function (href, event) {
     event.preventDefault();
 };
 
+App.prototype.getNavItem = function(loc, ignoreHash) {
+    return (function flatten(arr) {
+        return [].concat(...arr.map(v => [v, ...flatten(v.subitems)]));
+    })(this.state.book.navigation.toc).filter(
+        item => ignoreHash ?
+            this.state.book.canonical(item.href).split("#")[0] == this.state.book.canonical(loc.start.href).split("#")[0] :
+            this.state.book.canonical(item.href) == this.state.book.canonical(loc.start.href)
+    )[0] || null;
+};
+
 App.prototype.onNavigationLoaded = function (nav) {
     console.log("navigation", nav);
     let toc = this.qs(".toc-list");
@@ -303,12 +314,7 @@ App.prototype.onNavigationLoaded = function (nav) {
 App.prototype.onRenditionRelocated = function (event) {
     try {this.doDictionary(null);} catch (err) {}
     try {
-        let navItem = (function flatten(arr) {
-            return [].concat(...arr.map(v => [v, ...flatten(v.subitems)]));
-        })(this.state.book.navigation.toc).filter(
-            item => this.state.book.canonical(item.href) == this.state.book.canonical(event.start.href)
-        )[0] || null;
-
+        let navItem = this.getNavItem(event, false) || this.getNavItem(event, true);
         this.qsa(".toc-list .item").forEach(el => el.classList[(navItem && el.dataset.href == navItem.href) ? "add" : "remove"]("active"));
     } catch (err) {
         this.fatal("error updating toc", err);
@@ -475,7 +481,17 @@ App.prototype.loadFonts = function() {
 
 App.prototype.onRenditionRelocatedUpdateIndicators = function (event) {
     try {
-        let stxt = (event.start.location > 0) ? `Loc ${event.start.location}/${this.state.book.locations.length()}` : ((event.start.percentage > 0 && event.start.percentage < 1) ? `${Math.round(event.start.percentage * 100)}%` : ``);
+        let stxt = "Loading";
+        if (this.getChipActive("progress") == "none") {
+            stxt = "";
+        } else if (this.getChipActive("progress") == "location" && event.start.location > 0) {
+            stxt = `Loc ${event.start.location}/${this.state.book.locations.length()}`
+        } else if (this.getChipActive("progress") == "chapter") {
+            let navItem = this.getNavItem(event, false) || this.getNavItem(event, true);
+            stxt = navItem ? navItem.label.trim() : (event.start.percentage > 0 && event.start.percentage < 1) ? `${Math.round(event.start.percentage * 100)}%` : "";
+        } else {
+            stxt = (event.start.percentage > 0 && event.start.percentage < 1) ? `${Math.round(event.start.percentage * 1000)/10}%` : "";
+        }
         this.qs(".bar .loc").innerHTML = stxt;
     } catch (err) {
         console.error("error updating indicators");
