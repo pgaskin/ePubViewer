@@ -335,6 +335,8 @@ App.prototype.onBookMetadataLoaded = function (metadata) {
 };
 
 App.prototype.onBookCoverLoaded = function (url) {
+    if (!url)
+        return;
     if (!this.state.book.archived) {
         this.qs(".cover").src = url;
         return;
