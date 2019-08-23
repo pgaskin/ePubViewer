@@ -483,6 +483,60 @@ App.prototype.loadFonts = function() {
 
 App.prototype.onRenditionRelocatedUpdateIndicators = function (event) {
     try {
+        if (this.getChipActive("progress") == "bar") {
+            // TODO: don't recreate every time the location changes.
+            this.qs(".bar .loc").innerHTML = "";
+            
+            let bar = this.qs(".bar .loc").appendChild(document.createElement("div"));
+            bar.style.position = "relative";
+            bar.style.width = "60vw";
+            bar.style.cursor = "default";
+            bar.addEventListener("click", ev => ev.stopImmediatePropagation(), false);
+
+            let range = bar.appendChild(document.createElement("input"));
+            range.type = "range";
+            range.style.width = "100%";
+            range.min = 0;
+            range.max = this.state.book.locations.length();
+            range.value = event.start.location;
+            range.addEventListener("change", () => this.state.rendition.display(this.state.book.locations.cfiFromLocation(range.value)), false);
+
+            let markers = bar.appendChild(document.createElement("div"));
+            markers.style.position = "absolute";
+            markers.style.width = "100%";
+            markers.style.height = "50%";
+            markers.style.bottom = "0";
+            markers.style.left = "0";
+            markers.style.right = "0";
+
+            for (let i = 0, last = -1; i < this.state.book.locations.length(); i++) {
+                try {
+                    let parsed = new ePub.CFI().parse(this.state.book.locations.cfiFromLocation(i));
+                    if (parsed.spinePos < 0 || parsed.spinePos == last)
+                        continue;
+                    last = parsed.spinePos;
+
+                    let marker = markers.appendChild(document.createElement("div"));
+                    marker.style.position = "absolute";
+                    marker.style.left = `${this.state.book.locations.percentageFromLocation(i) * 100}%`;
+                    marker.style.width = "4px";
+                    marker.style.height = "30%";
+                    marker.style.cursor = "pointer";
+                    marker.style.opacity = "0.5";
+                    marker.addEventListener("click", this.onTocItemClick.bind(this, this.state.book.locations.cfiFromLocation(i)), false);
+
+                    let tick = marker.appendChild(document.createElement("div"));
+                    tick.style.width = "1px";
+                    tick.style.height = "100%";
+                    tick.style.backgroundColor = "currentColor";
+                } catch (ex) {
+                    console.warn("Error adding marker for location", i, ex);
+                }
+            }
+
+            return;
+        }
+
         let stxt = "Loading";
         if (this.getChipActive("progress") == "none") {
             stxt = "";
