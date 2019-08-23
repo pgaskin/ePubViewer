@@ -516,7 +516,7 @@ App.prototype.onRenditionStartedRestorePos = function (event) {
 
 App.prototype.checkDictionary = function () {
     try {
-        let selection = this.state.rendition.manager ? this.state.rendition.manager.getContents()[0].window.getSelection().toString().trim() : "";
+        let selection = (this.state.rendition.manager && this.state.rendition.manager.getContents().length > 0) ? this.state.rendition.manager.getContents()[0].window.getSelection().toString().trim() : "";
         if (selection.length < 2 || selection.indexOf(" ") > -1) {
             if (this.state.showDictTimeout) window.clearTimeout(this.state.showDictTimeout);
             this.doDictionary(null);
