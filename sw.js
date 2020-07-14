@@ -2,7 +2,7 @@
 console.log("sw: service worker loaded");
 
 const cachePrefix = "ePubViewer";
-const revision = 20;              // Update on every change
+const revision = 21;              // Update on every change
 
 // Set the cache as the active cache.
 self.addEventListener('activate', event =>
