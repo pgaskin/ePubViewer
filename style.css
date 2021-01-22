@@ -245,6 +245,11 @@
     font-style: italic;
 }
 
+.app .dictionary .definition .note {
+    display: block;
+    font-style: italic;
+}
+
 .app .dictionary .definition .credit {
     display: block;
     margin-top: 4px;
