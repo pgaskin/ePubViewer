@@ -611,6 +611,7 @@ App.prototype.doDictionary = function (word) {
 
     fetch(`https://dict.geek1011.net/word/${encodeURIComponent(word)}`).then(resp => {
         if (resp.status >= 500) throw new Error(`Dictionary not available`);
+        if (resp.status == 404) throw new Error(`Word not found`);
         return resp.json();
     }).then(obj => {
         if (obj.status == "error") throw new Error(`ApiError: ${obj.result}`);
@@ -667,15 +668,7 @@ App.prototype.doDictionary = function (word) {
     }).catch(err => {
         try {
             console.error("dictLookup", err);
-            if (err.toString().toLowerCase().indexOf("not in dictionary") > -1) {
-                lmeaningsEl.innerHTML = "Word not in dictionary.";
-                return;
-            }
-            if (err.toString().toLowerCase().indexOf("not available") > -1 || err.toString().indexOf("networkerror") > -1 || err.toString().indexOf("failed to fetch") > -1) {
-                lmeaningsEl.innerHTML = "Dictionary not available.";
-                return;
-            }
-            lmeaningsEl.innerHTML = `Dictionary not available: ${err.toString()}`;
+            lmeaningsEl.innerText = err.toString();
         } catch (err) {}
     });
 };
