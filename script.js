@@ -609,7 +609,7 @@ App.prototype.doDictionary = function (word) {
     lmeaningsEl.classList.add("meanings");
     lmeaningsEl.innerHTML = "Loading";
 
-    fetch(`https://dict.geek1011.net/word/${encodeURIComponent(word)}`).then(resp => {
+    fetch(`https://dict.api.pgaskin.net/word/${encodeURIComponent(word)}`).then(resp => {
         if (resp.status >= 500) throw new Error(`Dictionary not available`);
         if (resp.status == 404) throw new Error(`Word not found`);
         return resp.json();
